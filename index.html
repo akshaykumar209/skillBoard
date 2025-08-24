@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Share Board</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    
+    header {
+      background-color: #512da8;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    header h1 {
+      font-size: 24px;
+    }
+    
+    header button {
+      background-color: #fff;
+      color: #512da8;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    
+    header button:hover {
+      background-color: #d1c4e9;
+    }
+    
+    
+    .btn {
+      background-color: #7e57c2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      margin: 15px 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    
+    .btn:hover {
+      background-color: #5e35b1;
+    }
+    
+    
+    #formSection,
+    #skillListSection,
+    #aboutSection {
+      display: none;
+      margin-top: 20px;
+    }
+    
+    
+    form {
+      background-color: #ffffffcc;
+      padding: 25px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    form label {
+      display: block;
+      text-align: left;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    
+    form button[type="submit"] {
+      background-color: #512da8;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      margin-top: 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    form button[type="submit"]:hover {
+      background-color: #311b92;
+    }
+    
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+    
+    
+    .card {
+      background: #ffffff;
+      border-left: 5px solid #7e57c2;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 500px;
+      text-align: left;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.07);
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card strong {
+      color: #333;
+    }
+    
+    .card a.icon-link {
+      display: inline-block;
+      margin-right: 10px;
+      margin-top: 10px;
+      color: #512da8;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .card button {
+      background-color: #7e57c2;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    
+    .card button:hover {
+      background-color: #5e35b1;
+    }
+    
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background-color: crimson;
+      padding: 5px 8px;
+      font-size: 12px;
+      border-radius: 5px;
+    }
+    
+    
+    select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #999;
+      margin: 15px auto;
+      font-size: 16px;
+    }
+    
+    
+    #aboutSection {
+      background: #ffffffcc;
+      border-radius: 15px;
+      padding: 25px;
+      width: 90%;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    }
+    
+    .back {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 40px;
+      background: linear-gradient(45deg, #ff4e50, #f9d423);
+      /* Bright gradient */
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      box-shadow: 0 0 15px rgba(255, 78, 80, 0.6), 0 0 25px rgba(249, 212, 35, 0.6);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .back:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 78, 80, 0.9), 0 0 35px rgba(249, 212, 35, 0.9);
+    }
+    
+    select {
+      background-color: #4a0072;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      
+      margin-bottom: 15px;
+    }
+    
+    
+    .bak {
+      background: linear-gradient(145deg, #ff005e, #ff7b00);
+      color: white;
+      padding: 10px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 25px;
+      
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 20px;
+    }
+    
+    .back-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #ff007f, 0 0 40px #ff6600;
+    }
+    
+    #icon-link {
+      background: #7e57c2;
+      color: white;
+      text-decoration: none;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      margin: 4px;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      form,
+      .card,
+      #aboutSection {
+        width: 95%;
+      }
+      
+      .btn {
+        width: 80%;
+      }
+    }
+    
+    #aboutSection {
+      display: none;
+      padding: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: left;
+    }
+    
+    #aboutSection h2 {
+      text-align: center;
+      color: #4a0072;
+      margin-bottom: 25px;
+      font-size: 28px;
+    }
+    
+    .about-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    
+    .about-card {
+      background-color: #f0f0f0;
+      padding: 20px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    .about-card h3 {
+      color: #512da8;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+    
+    .about-card ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    
+    .about-card ul li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    
+    .about-card ul li ul {
+      padding-left: 15px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Skill Share Board</h1>
+    <button onclick="showSection('aboutSection')">About Me</button>
+  </header>
+  <div id="home">
+    <button class="btn" onclick="showSection('formSection')">Add Yourself</button>
+    <button class="btn" onclick="showSection('skillListSection')">Skill List</button>
+  </div>
+  <div id="formSection">
+    <h2 style="margin-bottom: 20px;">Add Your Skill</h2>
+    <form id="skillForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" required><label for="email">Email:</label>
+      <input type="email" id="email" required>
+      <div id="emailError" class="error"></div>
+      
+      <label for="phone">Phone Number:</label>
+      <input type="number" id="phone" required>
+      <div id="phoneError" class="error"></div>
+      
+      <label for="location">City:</label>
+      <input type="text" id="location" required>
+      
+      <label for="skill">Skill:</label>
+      <input type="text" id="skill" required>
+      
+      <label for="experience">Experience:</label>
+      <input type="text" id="experience" required>
+      
+      <label for="desc">Description:</label>
+      <textarea id="desc" rows="3"></textarea>
+      
+      <button type="submit">Submit</button>
+    </form>
+    <h3 id="userSkillsHeading" style="display:none">Your Added Skills</h3>
+    <div id="userSkillsList"></div>
+    <button onclick="goHome()" class="back">Back</button>
+    
+  </div>
+  <div id="skillListSection">
+    <h2>Available Helpers</h2>
+    
+    <select id="skillFilter" onchange="filterCards()">
+    
+      <option value="all">-- Filter by Skill --</option>
+    </select>
+    <select id="cityFilter" onchange="filterCards()">
+      <option value="all">-- Filter by City --</option>
+    </select>
+    <button onclick="goHome()" class="bak">Back</button>
+    <div id="cardList"></div>
+    
+  </div>
+  <div id="aboutSection">
+    <h2>About Me</h2>
+    <div class="about-container">
+      <!-- Personal Details -->
+      <div class="about-card">
+        <h3>👤 Personal Details</h3>
+        <ul>
+          <li><b>Name:</b> Akshay Kumar</li>
+          <li><b>Education:</b> 11th Grade, S.D. Inter College (Muzaffarnagar)</li>
+          <li><b>Family:</b>
+            <ul>
+              <li>Mother: Mrs. Sushma</li>
+              <li>Father: Mr. Dheeraj</li>
+              <li>Siblings: Two sisters</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Coding Journey -->
+      <div class="about-card">
+        <h3>💻 My Coding Journey</h3>
+        <ul>
+          <li><b>Introduced By:</b> My school</li>
+          <li><b>Started Learning:</b> During my web development studies</li>
+          <li><b>First Learned:</b> HTML, CSS, JavaScript</li>
+        </ul>
+      </div>
+      
+      <!-- CodeYogi Experience -->
+      <div class="about-card">
+        <h3>📚 Experience with CodeYogi</h3>
+        <ul>
+          <li><b>Joined:</b> 2 August 2024</li>
+          <li><b>Learned:</b> HTML, CSS, JavaScript</li>
+        </ul>
+      </div>
+      
+      <!-- Achievements -->
+      <div class="about-card">
+        <h3>🏆 Additional Achievements</h3>
+        <ul>
+          <li>Competitions: Wordle</li>
+          <li>Awards: None</li>
+        </ul>
+      </div>
+      
+      <!-- Future Plans -->
+      <div class="about-card">
+        <h3>🎯 Future Plans</h3>
+        <ul>
+          <li>Career Goal: To become a Software Developer</li>
+          <li>Reason: Passionate about creating innovative solutions and contributing to tech world</li>
+        </ul>
+      </div>
+    </div>
+    
+    <button onclick="goHome()" class="back">Back</button>
+  </div>
+  
+  <script>
+    let currentUserId = null;
+    let skillData = [
+      { id: 1001, name: "Akshay", email: "akshay@mail.com", phone: "9999999999", location: "Delhi", skill: "HTML", experience: "2 years", desc: "I love teaching HTML." },
+      { id: 1002, name: "Riya", email: "riya@mail.com", phone: "8888888888", location: "Mumbai", skill: "Drawing", experience: "3 years", desc: "Creative artist with passion." },
+      { id: 1003, userId: 1003, name: "Rahul", email: "rahul@mail.com", phone: "7777777777", location: "Bangalore", skill: "CSS", experience: "1.5 years", desc: "Front-end enthusiast, love making layouts." },
+      { id: 1004, userId: 1004, name: "Neha", email: "neha@mail.com", phone: "6666666666", location: "Hyderabad", skill: "JavaScript", experience: "2 years", desc: "Building interactive web projects." },
+      { id: 1005, userId: 1005, name: "Amit", email: "amit@mail.com", phone: "5555555555", location: "Chennai", skill: "Python", experience: "3 years", desc: "Automation and scripting enthusiast." },
+      { id: 1006, userId: 1006, name: "Sneha", email: "sneha@mail.com", phone: "4444444444", location: "Pune", skill: "React", experience: "1 year", desc: "Creating dynamic web apps with React." },
+      { id: 1007, userId: 1007, name: "Vikram", email: "vikram@mail.com", phone: "3333333333", location: "Kolkata", skill: "Java", experience: "2.5 years", desc: "Backend development and OOP lover." },
+      { id: 1008, userId: 1008, name: "Priya", email: "priya@mail.com", phone: "2222222222", location: "Jaipur", skill: "HTML", experience: "1 year", desc: "Learning web development step by step." },
+      { id: 1009, userId: 1009, name: "Karan", email: "karan@mail.com", phone: "1111111111", location: "Lucknow", skill: "JavaScript", experience: "2 years", desc: "Love making interactive web apps." },
+      { id: 1010, userId: 1010, name: "Anjali", email: "anjali@mail.com", phone: "0000000000", location: "Ahmedabad", skill: "CSS", experience: "1.5 years", desc: "Designing beautiful and responsive layouts." }
+    ];
+    
+    function showSection(id) {
+      document.getElementById('home').style.display = 'none';
+      document.getElementById('formSection').style.display = 'none';
+      document.getElementById('skillListSection').style.display = 'none';
+      document.getElementById('aboutSection').style.display = 'none';
+      document.getElementById(id).style.display = 'block';
+      
+      if (id === 'formSection') updateUserSkills();
+      if (id === 'skillListSection') updateSkillList();
+    }
+    
+    function goHome() {
+      document.getElementById('home').style.display = 'block';
+      document.getElementById('formSection').style.display = 'none';
+      document.getElementById('skillListSection').style.display = 'none';
+      document.getElementById('aboutSection').style.display = 'none';
+    }
+    
+    document.getElementById('skillForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const location = document.getElementById('location').value.trim();
+      const skill = document.getElementById('skill').value.trim();
+      const experience = document.getElementById('experience').value.trim();
+      const desc = document.getElementById('desc').value.trim();
+      
+      let valid = true;
+      document.getElementById('emailError').textContent = '';
+      document.getElementById('phoneError').textContent = '';
+      
+      if (!email.includes('@') || !email.includes('.')) {
+        document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+        valid = false;
+      }
+      
+      if (!/^\d{10}$/.test(phone)) {
+        document.getElementById('phoneError').textContent = 'Phone number must be exactly 10 digits.';
+        valid = false;
+      }
+      
+      if (!valid) return;
+      
+      const userId = currentUserId ?? Date.now(); // अगर पहले से user है तो उसी id पे नया skill add होगा
+      currentUserId = userId;
+      
+      const entry = { id: Date.now(), userId, name, email, phone, location, skill, experience, desc };
+      skillData.push(entry);
+      
+      updateUserSkills();
+      updateSkillList();
+      
+      document.getElementById('skillForm').reset();
+    });
+    
+    // ✅ अब एक user के multiple skills दिखेंगे
+    function updateUserSkills() {
+      const userSkills = skillData.filter(e => e.userId === currentUserId);
+      const container = document.getElementById('userSkillsList');
+      const heading = document.getElementById('userSkillsHeading');
+      container.innerHTML = '';
+      
+      if (userSkills.length === 0) {
+        heading.style.display = 'none';
+        return;
+      }
+      
+      heading.style.display = 'block';
+      
+      userSkills.forEach(data => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+        <strong>Name:</strong> ${data.name}<br>
+        <strong>Email:</strong> ${data.email}<br>
+        <strong>Phone:</strong> ${data.phone}<br>
+        <strong>City:</strong> ${data.location}<br>
+        <strong>Skill:</strong> ${data.skill}<br>
+        <strong>Experience:</strong> ${data.experience}<br>
+        <strong>Description:</strong> ${data.desc}<br>
+        <a class="icon-link" href="https://wa.me/${data.phone}" target="_blank">📱 WhatsApp</a>
+        <a class="icon-link" href="tel:${data.phone}">📞 Call</a>
+        <button class="delete-btn" onclick="deleteCard(${data.id}, true)">Delete</button>
+      `;
+        container.appendChild(card);
+      });
+    }
+    
+    function updateSkillList() {
+      const list = document.getElementById('cardList');
+      list.innerHTML = '';
+      
+      const selectedSkill = document.getElementById('skillFilter').value;
+      const selectedCity = document.getElementById('cityFilter').value;
+      
+      const skills = new Set();
+      const cities = new Set();
+      
+      skillData.forEach(entry => {
+        skills.add(entry.skill);
+        cities.add(entry.location);
+      });
+      
+      // Filtered result
+      const filtered = skillData.filter(entry => {
+        const skillMatch = selectedSkill === 'all' || entry.skill === selectedSkill;
+        const cityMatch = selectedCity === 'all' || entry.location === selectedCity;
+        return skillMatch && cityMatch;
+      });
+      
+      // ✅ अगर कुछ नहीं मिला तो message दिखाओ
+      if (filtered.length === 0) {
+        list.innerHTML = `<p style="color:red; font-weight:bold;">इस district में यह skill upload करने वाला कोई person नहीं है</p>`;
+      }
+      
+      filtered.forEach(entry => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+        <strong>Name:</strong> ${entry.name}<br>
+        <strong>Email:</strong> ${entry.email}<br>
+        <strong>Phone:</strong> ${entry.phone}<br>
+        <strong>City:</strong> ${entry.location}<br>
+        <strong>Skill:</strong> ${entry.skill}<br>
+        <strong>Experience:</strong> ${entry.experience}<br>
+        <strong>Description:</strong> ${entry.desc}<br>
+        <a id="icon-link" href="https://t.me/+919876543210" target="_blank">📩 Telegram</a>
+        <a id="icon-link" href="https://wa.me/${entry.phone}" target="_blank">📱 WhatsApp</a>
+        <a id="icon-link" href="tel:${entry.phone}">📞 Call</a>
+      
+       
+        ${entry.userId === currentUserId ? `<button class="delete-btn" onclick="deleteCard(${entry.id}, false)">Delete</button>` : ''}
+      `;
+        list.appendChild(card);
+      });
+      
+      // Dropdowns refill
+      const skillSelect = document.getElementById('skillFilter');
+      const currentSkill = selectedSkill;
+      skillSelect.innerHTML = '<option value="all">-- Filter by Skill --</option>';
+      skills.forEach(skill => {
+        const option = document.createElement('option');
+        option.value = skill;
+        option.textContent = skill;
+        skillSelect.appendChild(option);
+      });
+      skillSelect.value = currentSkill;
+      
+      const citySelect = document.getElementById('cityFilter');
+      const currentCity = selectedCity;
+      citySelect.innerHTML = '<option value="all">-- Filter by City --</option>';
+      cities.forEach(city => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        citySelect.appendChild(option);
+      });
+      citySelect.value = currentCity;
+    }
+    
+    function deleteCard(id, fromForm) {
+      skillData = skillData.filter(e => e.id !== id);
+      if (fromForm) {
+        updateUserSkills();
+      } else {
+        updateSkillList();
+      }
+    }
+    
+    function filterCards() {
+      updateSkillList();
+    }
+  </script>
+  
+</body>
+
+</html>
